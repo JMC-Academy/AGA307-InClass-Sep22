@@ -27,7 +27,7 @@ public class Week1 : MonoBehaviour
         AddNumbers(numberOne, numberThree);
         AddNumbers(numberTwo, numberThree);
         health = AddValues(health, bonus);
-        Debug.Log(health);
+        //Debug.Log(health);
     }
 
     int AddValues(int _one, int _two)
@@ -43,6 +43,6 @@ public class Week1 : MonoBehaviour
     void AddNumbers(int _one, int _two)
     {
         int answer = _one + _two;
-        Debug.Log(answer);
+        //Debug.Log(answer);
     }
 }
