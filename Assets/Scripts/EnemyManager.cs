@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnemyType
+{
+    OneHand, TwoHand, Archer
+}
+public enum PatrolType
+{
+    Linear, Random, Loop
+}
+
 public class EnemyManager : MonoBehaviour
 {
     public Transform[] spawnPoints;     //The spawn point for our enemies to spawn at
@@ -9,10 +18,14 @@ public class EnemyManager : MonoBehaviour
     public List<GameObject> enemies;    //A list containing all the enemies in our scene
     public int spawnCount = 10;
     public string killCondition = "Two";
+    public float spawnDelay = 2f;
+
+    GameManager _GM;
 
     void Start()
     {
-        SpawnEnemies();
+        _GM = FindObjectOfType<GameManager>();
+        StartCoroutine(SpawnDelayed());
     }
 
     private void Update()
@@ -32,15 +45,33 @@ public class EnemyManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Spawns an enemy with a delay until enemy count is reached
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator SpawnDelayed()
+    {
+        yield return new WaitForSeconds(spawnDelay);
+
+        if (_GM.gameState == GameState.Playing)
+        {
+            SpawnEnemy();
+        }
+
+        if (enemies.Count <= spawnCount)
+        {
+            StartCoroutine(SpawnDelayed());
+        }
+    }
+
+    /// <summary>
     /// Spawns a random enemy at a random spawn point
     /// </summary>
     void SpawnEnemy()
     {
         int enemyNumber = Random.Range(0, enemyTypes.Length);
         int spawnPoint = Random.Range(0, spawnPoints.Length);
-        GameObject enemy = Instantiate(enemyTypes[enemyNumber], spawnPoints[spawnPoint].position, spawnPoints[spawnPoint].rotation, transform);
+        GameObject enemy = Instantiate(enemyTypes[enemyNumber], spawnPoints[spawnPoint].position, transform.rotation, transform);
         enemies.Add(enemy);
-        print(enemies.Count);
     }
 
     /// <summary>
@@ -95,4 +126,10 @@ public class EnemyManager : MonoBehaviour
         }
         enemies.Clear();
     }
+
+    public Transform GetRandomSpawnPoint()
+    {
+        return spawnPoints[Random.Range(0, spawnPoints.Length)];
+    }
+
 }
