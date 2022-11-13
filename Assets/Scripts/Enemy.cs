@@ -5,12 +5,9 @@ using UnityEngine;
 
 public class Enemy : GameBehaviour
 {
-    public static event Action<GameObject> OnEnemyHit = null;
-    public static event Action<GameObject> OnEnemyDie = null;
-
     public EnemyType myType;
-    public float mySpeed = 2f;
-    public float myHealth = 100f;
+    public float mySpeed;
+    public float myHealth;
 
     [Header("AI")]
     public PatrolType myPatrol;
@@ -30,21 +27,43 @@ public class Enemy : GameBehaviour
 
     void Setup()
     {
+        float healthModifier = 1;
+        float speedModifier = 1;
+        switch(_GM.difficulty)
+        {
+            case Difficulty.Easy:
+                healthModifier = 1f;
+                speedModifier = 1f;
+                break;
+            case Difficulty.Medium:
+                healthModifier = 2f;
+                speedModifier = 1.2f;
+                break;
+            case Difficulty.Hard:
+                healthModifier = 3f;
+                speedModifier = 1.5f;
+                break;
+            default:
+                healthModifier = 1f;
+                speedModifier = 1f;
+                break;
+        }
+
         switch(myType)
         {
             case EnemyType.OneHand:
-                myHealth = 100f;
-                mySpeed = 2f;
+                myHealth = 100f * healthModifier;
+                mySpeed = 2f * speedModifier;
                 myPatrol = PatrolType.Linear;
                 break;
             case EnemyType.TwoHand:
-                myHealth = 200f;
-                mySpeed = 1f;
+                myHealth = 200f * healthModifier;
+                mySpeed = 1f * speedModifier;
                 myPatrol = PatrolType.Loop;
                 break;
             case EnemyType.Archer:
-                myHealth = 60f;
-                mySpeed = 5f;
+                myHealth = 60f * healthModifier;
+                mySpeed = 5f * speedModifier;
                 myPatrol = PatrolType.Random;
                 break;
         }
@@ -92,7 +111,7 @@ public class Enemy : GameBehaviour
             Hit(10);
     }
 
-    void Hit(int _damage)
+    public void Hit(int _damage)
     {
         myHealth -= _damage;
         if (myHealth <= 0)
@@ -101,13 +120,13 @@ public class Enemy : GameBehaviour
         }
         else
         {
-            OnEnemyHit?.Invoke(this.gameObject);
+            GameEvents.ReportEnemyHit(this.gameObject);
         }
     }
 
     void Die()
     {
         StopAllCoroutines();
-        OnEnemyDie?.Invoke(this.gameObject);
+        GameEvents.ReportEnemyDie(this.gameObject);
     }
 }

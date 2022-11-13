@@ -2090,9 +2090,10 @@ GameObject:
   - component: {fileID: 403846}
   - component: {fileID: 9550666}
   - component: {fileID: 6184340892710462845}
+  - component: {fileID: -6181496037617968561}
   m_Layer: 0
   m_Name: Skeleton_F
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2148,6 +2149,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 330b6cd1724e6e3448baffc4e79e3c01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myType: 0
+  mySpeed: 2
+  myHealth: 100
+  myPatrol: 0
+  patrolPoint: 0
+  reverse: 0
+  startPos: {fileID: 0}
+  endPos: {fileID: 0}
+  moveToPos: {fileID: 0}
+--- !u!136 &-6181496037617968561
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185486}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.2
+  m_Height: 1.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!1 &185512
 GameObject:
   m_ObjectHideFlags: 0

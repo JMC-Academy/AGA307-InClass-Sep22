@@ -6,6 +6,7 @@ public class GameBehaviour : MonoBehaviour
 {
     protected static GameManager _GM { get { return GameManager.INSTANCE; } }
     protected static EnemyManager _EM { get { return EnemyManager.INSTANCE; } }
+    protected static UIManager _UI { get { return UIManager.INSTANCE; } }
 
     /// <summary>
     /// Shuffles a list using Unity's Random

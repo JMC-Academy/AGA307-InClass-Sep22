@@ -1513,9 +1513,10 @@ GameObject:
   - component: {fileID: 463548}
   - component: {fileID: 9536858}
   - component: {fileID: -6863753788219935995}
+  - component: {fileID: -2946933211583137085}
   m_Layer: 0
   m_Name: Skeleton_TwoHanded_B
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1574,6 +1575,26 @@ MonoBehaviour:
   myType: 1
   mySpeed: 1
   myHealth: 200
+  myPatrol: 0
+  patrolPoint: 0
+  reverse: 0
+  startPos: {fileID: 0}
+  endPos: {fileID: 0}
+  moveToPos: {fileID: 0}
+--- !u!136 &-2946933211583137085
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159544}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.2
+  m_Height: 1.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!1 &162436
 GameObject:
   m_ObjectHideFlags: 0

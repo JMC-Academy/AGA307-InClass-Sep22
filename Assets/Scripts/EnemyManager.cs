@@ -20,12 +20,10 @@ public class EnemyManager : Singleton<EnemyManager>
     public string killCondition = "Two";
     public float spawnDelay = 2f;
 
-    GameManager _GM;
 
     void Start()
     {
-        _GM = FindObjectOfType<GameManager>();
-        StartCoroutine(SpawnDelayed());
+        //StartCoroutine(SpawnDelayed());
         ShuffleList(enemies);
     }
 
@@ -53,10 +51,10 @@ public class EnemyManager : Singleton<EnemyManager>
     {
         yield return new WaitForSeconds(spawnDelay);
 
-        if (_GM.gameState == GameState.Playing)
-        {
+        //if (_GM.gameState == GameState.Playing)
+        //{
             SpawnEnemy();
-        }
+        //}
 
         if (enemies.Count <= spawnCount)
         {
@@ -73,6 +71,7 @@ public class EnemyManager : Singleton<EnemyManager>
         int spawnPoint = Random.Range(0, spawnPoints.Length);
         GameObject enemy = Instantiate(enemyTypes[enemyNumber], spawnPoints[spawnPoint].position, transform.rotation, transform);
         enemies.Add(enemy);
+        _UI.UpdateEnemyCount(enemies.Count);
     }
 
     /// <summary>
@@ -98,6 +97,7 @@ public class EnemyManager : Singleton<EnemyManager>
 
         Destroy(_enemy);
         enemies.Remove(_enemy);
+        _UI.UpdateEnemyCount(enemies.Count);
     }
 
     /// <summary>
@@ -128,18 +128,38 @@ public class EnemyManager : Singleton<EnemyManager>
         enemies.Clear();
     }
 
+    /// <summary>
+    /// Gets a random spawn point from the list
+    /// </summary>
+    /// <returns>A random spawn point</returns>
     public Transform GetRandomSpawnPoint()
     {
         return spawnPoints[Random.Range(0, spawnPoints.Length)];
     }
 
+
+    void OnGameStateChanged(GameState _gameState)
+    {
+        switch(_gameState)
+        {
+            case GameState.Playing:
+                StartCoroutine(SpawnDelayed());
+                break;
+            default:
+                StopAllCoroutines();
+                break;
+        }
+    }
+
     private void OnEnable()
     {
-        Enemy.OnEnemyDie += KillEnemy;
+        GameEvents.OnEnemyDie += KillEnemy;
+        GameEvents.OnGameStateChanged += OnGameStateChanged;
     }
 
     private void OnDisable()
     {
-        Enemy.OnEnemyDie -= KillEnemy;
+        GameEvents.OnEnemyDie -= KillEnemy;
+        GameEvents.OnGameStateChanged -= OnGameStateChanged;
     }
 }
