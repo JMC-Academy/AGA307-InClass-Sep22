@@ -1,13 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : GameBehaviour
 {
     public EnemyType myType;
     public float mySpeed;
     public float myHealth;
+    public float myMaxHealth;
 
     [Header("AI")]
     public PatrolType myPatrol;
@@ -16,6 +19,10 @@ public class Enemy : GameBehaviour
     public Transform startPos;             //Needed for repeat patrol movement
     public Transform endPos;               //Needed for repeat patrol movement
     public Transform moveToPos;
+
+    [Header("Health Bar")]
+    public Slider healthBarSlider;
+    public TMP_Text healthBarText;
 
     void Start()
     {
@@ -67,6 +74,9 @@ public class Enemy : GameBehaviour
                 myPatrol = PatrolType.Random;
                 break;
         }
+        myMaxHealth = myHealth;
+        healthBarSlider.maxValue = myHealth;
+        UpdateHealthBar();
     }
 
     void SetupAI()
@@ -111,9 +121,15 @@ public class Enemy : GameBehaviour
             Hit(10);
     }
 
+    void UpdateHealthBar()
+    {
+        healthBarSlider.value = myHealth;
+        healthBarText.text = myHealth + "/" + myMaxHealth;
+    }
     public void Hit(int _damage)
     {
         myHealth -= _damage;
+        UpdateHealthBar();
         if (myHealth <= 0)
         {
             Die();

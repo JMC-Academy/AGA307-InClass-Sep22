@@ -49,21 +49,6 @@ public class GameManager : Singleton<GameManager>
         _UI.UpdateScore(score);
     }
 
-    public void LoadGame()
-    {
-        SceneManager.LoadScene("Game");
-    }
-
-    public void LoadTitle()
-    {
-        SceneManager.LoadScene("Title");
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
-
     /// <summary>
     /// Changes the difficulty then runs the setup function
     /// </summary>
