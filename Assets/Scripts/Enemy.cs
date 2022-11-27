@@ -7,10 +7,13 @@ using UnityEngine.UI;
 
 public class Enemy : GameBehaviour
 {
+    Animator anim;
+
     public EnemyType myType;
     public float mySpeed;
     public float myHealth;
     public float myMaxHealth;
+    public float attackRadius = 2;
 
     [Header("AI")]
     public PatrolType myPatrol;
@@ -26,6 +29,7 @@ public class Enemy : GameBehaviour
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         Setup();
         SetupAI();
         StartCoroutine(Move());
@@ -104,14 +108,28 @@ public class Enemy : GameBehaviour
         }
 
         transform.LookAt(moveToPos);
+
         while (Vector3.Distance(transform.position, moveToPos.position) > 0.3f)
         {
+            if(Vector3.Distance(_P.transform.position, transform.position) < attackRadius)
+            {
+                StopAllCoroutines();
+                StartCoroutine(Attack());
+                yield break;
+            }
             transform.position = Vector3.MoveTowards(transform.position, moveToPos.position, Time.deltaTime * mySpeed);
             yield return null;
         }
 
         yield return new WaitForSeconds(1);
 
+        StartCoroutine(Move());
+    }
+
+    IEnumerator Attack()
+    {
+        PlayAnimation("Attack");
+        yield return new WaitForSeconds(1);
         StartCoroutine(Move());
     }
 
@@ -126,6 +144,7 @@ public class Enemy : GameBehaviour
         healthBarSlider.value = myHealth;
         healthBarText.text = myHealth + "/" + myMaxHealth;
     }
+    
     public void Hit(int _damage)
     {
         myHealth -= _damage;
@@ -136,13 +155,22 @@ public class Enemy : GameBehaviour
         }
         else
         {
+            PlayAnimation("Hit");
             GameEvents.ReportEnemyHit(this.gameObject);
         }
     }
 
     void Die()
     {
+        GetComponent<Collider>().enabled = false;
+        PlayAnimation("Die");
         StopAllCoroutines();
         GameEvents.ReportEnemyDie(this.gameObject);
+    }
+
+    void PlayAnimation(string _animation)
+    {
+        int randAnim = UnityEngine.Random.Range(1, 4);
+        anim.SetTrigger(_animation + randAnim.ToString());
     }
 }

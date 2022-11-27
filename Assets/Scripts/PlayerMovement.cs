@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : GameBehaviour
+public class PlayerMovement : Singleton<PlayerMovement>
 {
     public CharacterController controller;
 

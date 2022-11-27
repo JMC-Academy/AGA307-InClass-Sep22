@@ -24,5 +24,13 @@ public class Projectile : MonoBehaviour
             }
         }
 
+        if(collision.gameObject.CompareTag("Target"))
+        {
+            if(collision.gameObject.GetComponent<Target>() != null)
+            {
+                collision.gameObject.GetComponent<Target>().Hit();
+            }
+        }
+
     }
 }

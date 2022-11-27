@@ -95,7 +95,7 @@ public class EnemyManager : Singleton<EnemyManager>
         if (enemies.Count == 0)
             return;
 
-        Destroy(_enemy);
+        Destroy(_enemy,3);
         enemies.Remove(_enemy);
         _UI.UpdateEnemyCount(enemies.Count);
     }

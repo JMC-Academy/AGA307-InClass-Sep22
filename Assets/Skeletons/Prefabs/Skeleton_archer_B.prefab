@@ -245,7 +245,7 @@ Animator:
   m_GameObject: {fileID: 108450}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 20300ac630e0fcd4dbab63a9b39cdafa, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fba759fd6f9aff440a864f797c0a3510, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -271,6 +271,7 @@ MonoBehaviour:
   mySpeed: 5
   myHealth: 50
   myMaxHealth: 0
+  attackRadius: 5
   myPatrol: 0
   patrolPoint: 0
   reverse: 0
