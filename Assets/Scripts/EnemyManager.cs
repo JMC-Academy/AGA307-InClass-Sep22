@@ -8,7 +8,7 @@ public enum EnemyType
 }
 public enum PatrolType
 {
-    Linear, Random, Loop
+    Patrol, Detect, Chase, Attack, Die
 }
 
 public class EnemyManager : Singleton<EnemyManager>
