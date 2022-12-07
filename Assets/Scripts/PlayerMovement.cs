@@ -18,6 +18,12 @@ public class PlayerMovement : Singleton<PlayerMovement>
 
     bool isGrounded;
 
+    [Header("Audio Stuff")]
+    public AudioSource footstepAudio;
+    public AudioSource effectsAudio;
+    public float stepRate = 0.5f;
+    float stepCooldown;
+
 
     void Update()
     {
@@ -35,11 +41,21 @@ public class PlayerMovement : Singleton<PlayerMovement>
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && isGrounded)
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
 
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
+
+        //Footstep Audio stuff
+        stepCooldown -= Time.deltaTime;
+        if ((move.x != 0 || move.z != 0) && stepCooldown < 0 && isGrounded)
+        {
+            footstepAudio.clip = _AM.GetFootsteps();
+            footstepAudio.pitch = Random.Range(0.9f, 1.1f);
+            footstepAudio.Play();
+            stepCooldown = stepRate;
+        }
     }
 }

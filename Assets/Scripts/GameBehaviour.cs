@@ -8,6 +8,7 @@ public class GameBehaviour : MonoBehaviour
     protected static EnemyManager _EM { get { return EnemyManager.INSTANCE; } }
     protected static UIManager _UI { get { return UIManager.INSTANCE; } }
     protected static PlayerMovement _P { get { return PlayerMovement.INSTANCE; } }
+    protected static AudioManager _AM { get { return AudioManager.INSTANCE; } }
 
     /// <summary>
     /// Shuffles a list using Unity's Random
